@@ -6,6 +6,13 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface AccessibleButton {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "label": string;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -22,6 +29,12 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLAccessibleButtonElement extends Components.AccessibleButton, HTMLStencilElement {
+    }
+    var HTMLAccessibleButtonElement: {
+        prototype: HTMLAccessibleButtonElement;
+        new (): HTMLAccessibleButtonElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -29,10 +42,18 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "accessible-button": HTMLAccessibleButtonElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface AccessibleButton {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "label"?: string;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -48,6 +69,7 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface IntrinsicElements {
+        "accessible-button": AccessibleButton;
         "my-component": MyComponent;
     }
 }
@@ -55,6 +77,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "accessible-button": LocalJSX.AccessibleButton & JSXBase.HTMLAttributes<HTMLAccessibleButtonElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
